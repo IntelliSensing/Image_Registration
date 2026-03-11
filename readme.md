@@ -78,3 +78,5 @@ python Ui_MainWindow.py
 - **OPT图像区域**（右上）：显示导入的光学图像
 - **配准结果区域**（下方）：显示SAR和光学图像的拼接结果及匹配连线
 - **MSE指标**：显示配准的均方误差，数值越小表示配准精度越高
+
+<img src="C:\Users\19021\AppData\Roaming\Typora\typora-user-images\image-20260311171158285.png" alt="image-20260311171158285" style="zoom: 50%;" />
