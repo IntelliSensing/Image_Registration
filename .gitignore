@@ -3,10 +3,10 @@ __pycache__/
 build/
 dist/
 *.spec
+*.pyc
 OS_crop/
 OSdataset/
 weights/
 OS_train.txt
 OS_val.txt
 OS_test.txt
-*.pyc

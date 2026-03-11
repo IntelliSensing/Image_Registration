@@ -4,63 +4,59 @@
 
 ## 环境安装
 
-本代码依赖pytorch环境，在有nvidia显卡的条件下
-
 ```bash
+conda create -n image_reg python=3.10
+conda activate image_reg
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+pip install opencv-python scikit-image scipy tqdm pyqt5
+pip install numpy==1.26.0
 ```
-
-否则需安装
-
-```bash
-pip3 install torch torchvision torchaudio
-```
-
-其他的python依赖有
-
-- opencv-python
-- scikit-image
-- scipy
-- numpy == 1.26.0
-- tqdm
-- pyqt5
 
 ## 数据集
 
-本项目使用OS（Optical-SAR）数据集，数据集不包含在本仓库中，需要单独下载。
+本项目使用OS（Optical-SAR）数据集，数据集包含以下几个部分：
 
-数据集下载地址：<!-- TODO: 请补充数据集下载链接 -->
+### OSdataset — 原始数据集
 
-下载后请将数据集放置在项目根目录下，目录结构如下：
+包含SAR和光学图像对，提供两种分辨率版本，每种分辨率下分为 train、val、test 三个子集：
+
+- **OSdataset/512/**：512x512 分辨率的SAR-光学图像对，用于生成训练用的64x64 patch
+- **OSdataset/256/**：256x256 分辨率的SAR-光学图像对（512版本的降采样）
+
+### OS_crop — 评估数据集
+
+由原始数据集裁剪而来，用于模型评估。每组图像对存放在独立文件夹中（如 `sar1/`），包含：
+
+- `sar{n}.png`：512x512 的SAR图像
+- `opt{n}.png`：480x480 的光学图像（相对SAR图像存在32像素的平移偏移）
+- `mat.txt`：真实变换矩阵（ground truth），记录了SAR与光学图像之间的几何变换关系
+
+### OSdataset/patch — 训练patch
+
+由 `gen_sar_opt.py` 从 OSdataset/512 的图像中切分生成的 64x64 小块，用于训练特征描述子网络。每个patch包含对应位置的SAR和光学图像块，训练时网络学习在这些小块上提取可匹配的特征描述子。
+
+### 数据处理流程
 
 ```
-OSdataset/
-├── 256/
-│   ├── train/    # 256x256 训练集（包含opt和sar图像对）
-│   ├── val/      # 256x256 验证集
-│   └── test/     # 256x256 测试集
-└── 512/
-    ├── train/    # 512x512 训练集（包含opt和sar图像对）
-    ├── val/      # 512x512 验证集
-    └── test/     # 512x512 测试集
+OSdataset/512 (512x512原图) → gen_sar_opt.py → OSdataset/patch (64x64 patch) → 训练
+                             → 裁剪偏移 → OS_crop (512+480, 32px偏移) → 评估
 ```
 
 ## 训练
 
-1. 先使用 `gen_sar_opt.py` 生成匹配数据集，生成的图片大小为64x64
-2. 修改 `gen_sar_opt.py` 中的数据集路径：
+1. 先使用 `gen_sar_opt.py` 生成训练用的64x64 patch，修改其中的数据集路径：
    ```python
    data_root = 'OSdataset/512/'
    patch_root = 'OSdataset/patch/'
    ```
-3. 运行后会生成 `OS_train.txt` 和 `OS_val.txt` 用于训练
-4. 修改 `train.py` 里面的相关路径：
+2. 运行后会生成 `OS_train.txt`、`OS_val.txt`、`OS_test.txt` 索引文件
+3. 修改 `train.py` 里面的相关路径：
    ```python
    cfg.train_data = 'OS_train.txt'
    cfg.test_data = 'OS_val.txt'
    cfg.weights_dir = 'weights/'
    ```
-5. `python train.py` 开始进行模型训练，训练好的权重文件会保存在 `weights/` 目录下
+4. `python train.py` 开始进行模型训练，训练好的权重文件会保存在 `weights/` 目录下
 
 ## 评估
 
