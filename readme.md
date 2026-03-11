@@ -79,4 +79,4 @@ python Ui_MainWindow.py
 - **配准结果区域**（下方）：显示SAR和光学图像的拼接结果及匹配连线
 - **MSE指标**：显示配准的均方误差，数值越小表示配准精度越高
 
-<img src="UI.png" alt="GUI界面" width="50%">
+<img src="UI.png" alt="GUI界面" width="80%">
