@@ -1,4 +1,4 @@
-# SAR-Optical-Matching
+# SAR-Optical-Registration
 
 <p align="left">
   <a href="README_zh.md">
@@ -125,5 +125,7 @@ python Ui_MainWindow.py
 - **OPT image panel (top-right)** — displays the optical image
 - **Registration result panel (bottom)** — shows stitched images and match lines
 - **MSE metric** — lower values indicate better registration accuracy
+
+### Demo
 
 <img src="demo.png" alt="demo" width="80%">

@@ -1,4 +1,4 @@
-# SAR-Optical-Matching
+# SAR-Optical-Registration
 
 <p align="left">
   <a href="README.md">
@@ -105,5 +105,7 @@ python Ui_MainWindow.py
 - **OPT图像区域**（右上）：显示导入的光学图像
 - **配准结果区域**（下方）：显示SAR和光学图像的拼接结果及匹配连线
 - **MSE指标**：显示配准的均方误差，数值越小表示配准精度越高
+
+### 效果展示
 
 <img src="demo.png" alt="demo" width="80%">
