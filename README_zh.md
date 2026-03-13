@@ -1,14 +1,10 @@
+# SAR-Optical-Matching
 
-<p align="right">
-  <a href="readme.md">
-    <img src="https://img.shields.io/badge/English-View-blue?style=for-the-badge">
-  </a>
-  <a href="readme_zh.md">
-    <img src="https://img.shields.io/badge/中文-阅读-red?style=for-the-badge">
+<p align="left">
+  <a href="README.md">
+    <img src="https://img.shields.io/badge/English-red" height="18">
   </a>
 </p>
-
-# SAR-Optical-Matching
 
 基于深度学习的SAR-光学图像配准系统，包含模型训练、评估以及可视化GUI界面。
 
