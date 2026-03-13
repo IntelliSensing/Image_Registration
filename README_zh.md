@@ -36,7 +36,7 @@ pip install numpy==1.26.0
 3. 修改 `train.py` 里面的相关路径：
    ```python
    cfg.train_data = 'OS_train.txt'
-   cfg.test_data = 'OS_val.txt'
+   cfg.test_data = 'OS_val.txt'   # 验证集，训练时用于验证模型效果
    cfg.weights_dir = 'weights/'
    ```
 4. `python train.py` 开始进行模型训练，训练好的权重文件会保存在 `weights/` 目录下

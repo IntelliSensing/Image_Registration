@@ -45,7 +45,7 @@ patch_root = 'OSdataset/patch/'
 
 ```python
 cfg.train_data = 'OS_train.txt'
-cfg.test_data = 'OS_val.txt'
+cfg.test_data = 'OS_val.txt'   # validation set, used during training for validation
 cfg.weights_dir = 'weights/'
 ```
 
