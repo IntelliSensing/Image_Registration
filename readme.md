@@ -1,8 +1,10 @@
-# Image_Registration
+# SAR-Optical-Matching
 
-基于深度学习的SAR-光学图像配准系统，包含模型训练、评估以及可视化GUI界面。
+[中文](./readme_zh.md)
 
-## 环境安装
+A deep learning-based SAR-optical image registration system with training, evaluation, and a PyQt5-based visualization GUI.
+
+## Environment Setup
 
 ```bash
 conda create -n image_reg python=3.10
@@ -12,71 +14,71 @@ pip install opencv-python scikit-image scipy tqdm pyqt5
 pip install numpy==1.26.0
 ```
 
-## 数据集
+## Dataset
 
-本项目使用OS（Optical-SAR）数据集，包含SAR和光学图像对，提供两种分辨率版本，每种分辨率下分为 train、val、test 三个子集：
+This project uses the OS (Optical-SAR) dataset, which contains paired SAR and optical images. Two resolution versions are provided, and each version is split into `train`, `val`, and `test` subsets:
 
-- **OSdataset/512/**：512x512 分辨率的SAR-光学图像对
-- **OSdataset/256/**：256x256 分辨率的SAR-光学图像对（512版本的降采样）
+- **OSdataset/512/**: 512×512 SAR-optical image pairs
+- **OSdataset/256/**: 256×256 SAR-optical image pairs (downsampled from the 512 version)
 
-## 训练
+## Training
 
-1. 使用 `gen_sar_opt.py` 将 OSdataset/512 的512x512图像切分为64x64的patch，生成到 `OSdataset/patch/` 目录，用于训练特征描述子网络。修改其中的数据集路径：
+1. Use `gen_sar_opt.py` to crop the 512×512 images in `OSdataset/512/` into 64×64 patches and save them to `OSdataset/patch/` for descriptor network training. Update the dataset paths in the script:
    ```python
    data_root = 'OSdataset/512/'
    patch_root = 'OSdataset/patch/'
    ```
-2. 运行后会同时生成 `OS_train.txt`、`OS_val.txt`、`OS_test.txt` 索引文件
-3. 修改 `train.py` 里面的相关路径：
+2. After running the script, the index files `OS_train.txt`, `OS_val.txt`, and `OS_test.txt` will also be generated.
+3. Update the related paths in `train.py`:
    ```python
    cfg.train_data = 'OS_train.txt'
    cfg.test_data = 'OS_val.txt'
    cfg.weights_dir = 'weights/'
    ```
-4. `python train.py` 开始进行模型训练，训练好的权重文件会保存在 `weights/` 目录下
+4. Run `python train.py` to start training. The trained weights will be saved in the `weights/` directory.
 
-## 评估
+## Evaluation
 
-评估使用 `OS_crop/` 目录下的数据，该目录由原始数据集裁剪而来。每组图像对存放在独立文件夹中（如 `sar1/`），包含：
+Evaluation uses the data in the `OS_crop/` directory, which is cropped from the original dataset. Each image pair is stored in an independent folder (such as `sar1/`) and contains:
 
-- `sar{n}.png`：512x512 的SAR图像
-- `opt{n}.png`：480x480 的光学图像（相对SAR图像存在32像素的平移偏移）
-- `mat.txt`：真实变换矩阵（ground truth），记录了SAR与光学图像之间的几何变换关系
+- `sar{n}.png`: a 512×512 SAR image
+- `opt{n}.png`: a 480×480 optical image (with a 32-pixel translation offset relative to the SAR image)
+- `mat.txt`: the ground-truth transformation matrix describing the geometric relationship between the SAR and optical images
 
-使用 `eval.py` 脚本进行测试集评估，修改模型路径和数据集路径：
+Use `eval.py` to evaluate on the test set. Update the model path and dataset path:
 
 ```python
 eval_path = 'OS_crop'
 model_base_path = f'{_model_base_path}/weights/'
 ```
 
-运行评估，完成后会有结果输出：`mse: 1.8844 1.7377 2.6995 rate 0.9232`
+Run the evaluation script and the output will be similar to: `mse: 1.8844 1.7377 2.6995 rate 0.9232`
 
-## 可视化界面
+## Visualization GUI
 
-本项目提供了基于PyQt5的可视化GUI界面，可以交互式地进行SAR-光学图像配准操作。
+This project provides a PyQt5-based GUI for interactive SAR-optical image registration.
 
-### 启动方式
+### Launch
 
 ```bash
 python Ui_MainWindow.py
 ```
 
-### 使用步骤
+### Usage
 
-1. **导入SAR图像**：点击右侧"导入SAR"按钮，选择SAR图像文件（支持png、jpg格式）
-2. **导入OPT图像**：点击右侧"导入OPT"按钮，选择光学图像文件（支持png、jpg格式）
-3. **执行配准**：点击右侧"配准"按钮，系统将自动进行特征提取、特征匹配和单应性矩阵估计
-4. **查看结果**：
-   - 上方左侧显示SAR图像，右侧显示光学图像
-   - 下方显示配准结果，包含匹配点对之间的连线（绿色线条标注匹配关系）
-   - 右侧显示MSE（均方误差）数值，用于评估配准精度
+1. **Import SAR image**: Click the **Import SAR** button on the right and choose a SAR image file (`png`, `jpg`, etc.).
+2. **Import OPT image**: Click the **Import OPT** button on the right and choose an optical image file (`png`, `jpg`, etc.).
+3. **Run registration**: Click the **Register** button on the right. The system will automatically perform feature extraction, feature matching, and homography estimation.
+4. **View results**:
+   - The SAR image is displayed at the upper left, and the optical image is displayed at the upper right.
+   - The lower panel shows the registration result with matched keypoint pairs connected by green lines.
+   - The right side displays the MSE (mean squared error), which is used to measure registration accuracy.
 
-### 界面说明
+### Interface Description
 
-- **SAR图像区域**（左上）：显示导入的SAR图像
-- **OPT图像区域**（右上）：显示导入的光学图像
-- **配准结果区域**（下方）：显示SAR和光学图像的拼接结果及匹配连线
-- **MSE指标**：显示配准的均方误差，数值越小表示配准精度越高
+- **SAR image area** (upper left): displays the imported SAR image
+- **OPT image area** (upper right): displays the imported optical image
+- **Registration result area** (bottom): displays the stitched SAR-optical result and the matching lines
+- **MSE metric**: displays the mean squared error; a smaller value indicates better registration accuracy
 
-<img src="UI.png" alt="GUI界面" width="80%">
+<img src="UI.png" alt="GUI interface" width="80%">
