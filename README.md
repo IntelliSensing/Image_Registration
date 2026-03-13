@@ -77,9 +77,6 @@ model_base_path = f'{_model_base_path}/weights/'
 
 Best evaluation results on the OS dataset (90 image pairs):
 
-- **MSE (Mean Square Error)**: Root mean square error of matched keypoints in the x, y, and combined xy directions (in pixels). Lower is better.
-- **RCM (Ratio of Correct Matches)**: Percentage of matched keypoints with error below the threshold. Higher is better.
-
 <table align="center">
   <tr>
     <th colspan="3" align="center">MSE</th>
@@ -97,6 +94,9 @@ Best evaluation results on the OS dataset (90 image pairs):
     <td align="center">92.8%</td>
   </tr>
 </table>
+
+- **MSE (Mean Square Error)**: Root mean square error of matched keypoints in the x, y, and combined xy directions (in pixels). Lower is better.
+- **RCM (Ratio of Correct Matches)**: Percentage of matched keypoints with error below the threshold. Higher is better.
 
 ## GUI Visualization
 

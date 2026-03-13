@@ -58,9 +58,6 @@ model_base_path = f'{_model_base_path}/weights/'
 
 运行评估，在 OS 数据集（90 组图像对）上的最佳结果如下：
 
-- **MSE（均方误差）**：匹配特征点在 x、y 及 xy 方向上的均方根误差（单位：像素），越低越好。
-- **RCM（正确匹配率）**：误差低于阈值的匹配特征点占比，越高越好。
-
 <table align="center">
   <tr>
     <th colspan="3" align="center">MSE</th>
@@ -78,6 +75,9 @@ model_base_path = f'{_model_base_path}/weights/'
     <td align="center">92.8%</td>
   </tr>
 </table>
+
+- **MSE（均方误差）**：匹配特征点在 x、y 及 xy 方向上的均方根误差（单位：像素），越低越好。
+- **RCM（正确匹配率）**：误差低于阈值的匹配特征点占比，越高越好。
 
 ## 可视化界面
 
