@@ -2,7 +2,7 @@
 
 <p align="left">
   <a href="README.md">
-    <img src="https://img.shields.io/badge/English-red" height="18">
+    <img src="https://img.shields.io/badge/English-red" height="22">
   </a>
 </p>
 
@@ -56,7 +56,28 @@ eval_path = 'OS_crop'
 model_base_path = f'{_model_base_path}/weights/'
 ```
 
-运行评估，完成后会有结果输出：`mse: 1.8844 1.7377 2.6995 rate 0.9232`
+运行评估，在 OS 数据集（90 组图像对）上的最佳结果如下：
+
+- **MSE（均方误差）**：匹配特征点在 x、y 及 xy 方向上的均方根误差（单位：像素），越低越好。
+- **RCM（正确匹配率）**：误差低于阈值的匹配特征点占比，越高越好。
+
+<table align="center">
+  <tr>
+    <th colspan="3" align="center">MSE</th>
+    <th align="center">RCM</th>
+  </tr>
+  <tr>
+    <td align="center">xMSE</td>
+    <td align="center">yMSE</td>
+    <td align="center">xyMSE</td>
+    <td rowspan="2" align="center">92.8%</td>
+  </tr>
+  <tr>
+    <td align="center">1.672</td>
+    <td align="center">1.841</td>
+    <td align="center">2.6003</td>
+  </tr>
+</table>
 
 ## 可视化界面
 
@@ -85,4 +106,4 @@ python Ui_MainWindow.py
 - **配准结果区域**（下方）：显示SAR和光学图像的拼接结果及匹配连线
 - **MSE指标**：显示配准的均方误差，数值越小表示配准精度越高
 
-<img src="UI.png" alt="GUI界面" width="80%">
+<img src="demo.png" alt="demo" width="80%">

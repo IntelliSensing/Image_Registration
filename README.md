@@ -2,7 +2,7 @@
 
 <p align="left">
   <a href="README_zh.md">
-    <img src="https://img.shields.io/badge/中文-blue" height="18">
+    <img src="https://img.shields.io/badge/中文-blue" height="22">
   </a>
 </p>
 
@@ -75,11 +75,28 @@ eval_path = 'OS_crop'
 model_base_path = f'{_model_base_path}/weights/'
 ```
 
-After evaluation, results such as the following will be printed:
+Best evaluation results on the OS dataset (90 image pairs):
 
-```
-mse: 1.8844 1.7377 2.6995 rate 0.9232
-```
+- **MSE (Mean Square Error)**: Root mean square error of matched keypoints in the x, y, and combined xy directions (in pixels). Lower is better.
+- **RCM (Ratio of Correct Matches)**: Percentage of matched keypoints with error below the threshold. Higher is better.
+
+<table align="center">
+  <tr>
+    <th colspan="3" align="center">MSE</th>
+    <th align="center">RCM</th>
+  </tr>
+  <tr>
+    <td align="center">xMSE</td>
+    <td align="center">yMSE</td>
+    <td align="center">xyMSE</td>
+    <td rowspan="2" align="center">92.8%</td>
+  </tr>
+  <tr>
+    <td align="center">1.672</td>
+    <td align="center">1.841</td>
+    <td align="center">2.6003</td>
+  </tr>
+</table>
 
 ## GUI Visualization
 
@@ -109,4 +126,4 @@ python Ui_MainWindow.py
 - **Registration result panel (bottom)** — shows stitched images and match lines
 - **MSE metric** — lower values indicate better registration accuracy
 
-<img src="UI.png" alt="GUI Interface" width="80%">
+<img src="demo.png" alt="demo" width="80%">
